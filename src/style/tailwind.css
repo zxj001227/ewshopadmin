@@ -1,0 +1,12 @@
+/* ./src/index.css */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+/*解决登录button的样式冲突*/
+@layer base {
+    /*处理naive和tailwind的冲突*/
+    button, [type='button'], [type='reset'],[type='submit']{
+        background-color: var(--n-color);
+    }
+}
+
