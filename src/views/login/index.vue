@@ -54,10 +54,10 @@
     import {PersonOutline, LockClosedOutline} from "@vicons/ionicons5";
     import {useUserStore} from "@/store/user";
     import {useRouter} from "vue-router";
-    // import { useMessage } from 'naive-ui';
+    import { useMessage } from 'naive-ui';
 
-    // const message = useMessage();
-    // (<any>window).$message = useMessage();
+    const message = useMessage();
+    (<any>window).$message = useMessage();
 
     interface FormState {
       email: string;
@@ -85,30 +85,32 @@
     const handleSubmit = () => {
       // 表单验证
       formRef.value.validate(async (errors: any) => {
-        console.log(!errors)
-        if (!errors) {
-          // return; // 有错误就返回，不执行，不再往下发送请求
-          // 接收数据
+        console.log(!errors) //false // 有错误就返回，不执行，不再往下发送请求
+
+        if (!errors) {  // true
+          // return;
+          // 接收用户填写的数据数据
           const {username, password} = formInline;
           // 显示登录中
           loading.value = true;
-          // 调整数据结构
-          const params: FormState = {
+          //因为api中传参要传email 和 password 所以调整数据结构
+          const params: FormState = { //继承封装的接口
             email: username,
             password
           };
+          // 在一个 try 语句中，程序执行一段代码，如果发生了异常，则会被捕获，并转到相应的 catch 语句中进行处理。
           try {
             console.log(params)
             // 执行登录操作
-            userStore.login(params).then(_res => {      // res是userStore里面返回的数据
+            userStore.login(params).then(_res => {      // res是userStore里面返回的数据 store.user.js
               // 关闭窗口
               // Comment(res);
-              // message.success("登陆成功");
+              message.success("登陆成功");
               loading.value = false;
               // 弹出提示  登陆成功
               // 跳转回首页
-              // router.push({name: "dashboard"});
-              console.log(_res)
+              router.push({name: "dashboard"});
+              console.log(_res) //获取用户登录信息
             }).catch(() => {
               // console.log(err);
               loading.value = false;
@@ -120,7 +122,7 @@
             loading.value = false;
           }
         } else {
-          // message.error('请填写完整信息，并且进行验证码校验')
+          message.error('请填写完整信息，并且进行验证码校验')
         }
       })
     }

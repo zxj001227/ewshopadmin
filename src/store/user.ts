@@ -33,6 +33,9 @@ export const useUserStore = defineStore({
         getPermissions(): string[] {
             return this.permissions;
         },
+        getUserInfo(): object {
+            return this.permissions;
+        },
     },
     actions: {
         setToken(token: string) {
@@ -53,7 +56,7 @@ export const useUserStore = defineStore({
         setPermissions(permissions: string[]) {
             this.permissions = permissions;
         },
-        // 异步的登录方法
+        // 异步的登录方法 是点击登录的时候调用的
         async login(userInfo: object) {
             try {
                 const response: any = await login(userInfo);
